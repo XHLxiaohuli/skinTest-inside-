@@ -1,0 +1,651 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link rel="stylesheet" href="jiance.css">
+  <style type="text/css">
+    .loading{
+      display: none;
+      width: 220px;
+      height: 70px;
+      border-radius: 4px;
+      line-height: 70px;
+      position: absolute;
+      margin: auto;
+      top: 0px;
+      bottom: 0;
+      right: 200px;
+      /*-webkit-background-color:0000008f;*/
+      background-color: #333333;
+      /*-ms-background-color:#333333;*/
+      color: #FFFFFF;
+      transition: mymove1 0.4s ease ;
+      -webkit-animation:mymove1 0.4s ease ;
+      font-size: 13px;
+      opacity: 0.8;
+      font-weight: bolder;
+      text-align: center;
+    }
+  </style>
+  <script src="swfobject.js" type="text/javascript"></script>
+  <script language="javascript">
+
+
+
+    //设置全局变量作为参数
+    //测试类型
+    var  testType='';
+    //用户id
+    var  memberId='';
+    //水油图片
+    var  waterPic='';
+    //老化图片
+    var  agingPic='';
+    //炎症图片
+    var  inflammationPic='';
+    //色素图片
+    var  pigmentPic='';
+    //毛孔图片
+    var  porePic='';
+
+
+
+//    var api=require('../../src/components/api')
+    //配置面板
+    function config() {
+      document.all.sfid.jsconfigure();
+    }
+
+    //检测设备（设备不匹配的情况下执行）
+    function jserror(v) {
+      alert(v);
+      return false;
+    }
+//    //水分
+//    var uptestimg1 = res.skinTestReport.waterPic.url+"";
+//    //老化油份
+//    var uptestimg2= res.skinTestReport.agingPic.url+"";
+//    //炎症
+//    var uptestimg3 = res.skinTestReport.inflammationPic.url+"";
+//    //色素
+//    var uptestimg4 = res.skinTestReport.pigmentPic.url+"";
+//    //毛孔
+//    var uptestimg5 = res.skinTestReport.porePic.url+"";
+
+    //水分
+    var uptestimg1;
+    //老化油份
+    var uptestimg2;
+    //炎症
+    var uptestimg3;
+    //色素
+    var uptestimg4;
+    //毛孔
+    var uptestimg5;
+
+    var tupian1date='';
+    var tupian2date='';
+    var tupian3date='';
+    var tupian4date='';
+    var tupian5date='';
+
+
+
+    //返回图片1的Base64字符
+    function getimg1(v) {
+
+//      document.all.img1v.value = v;
+      document.all.imgg1.src = "data:image/jpeg;base64," + v;
+      waterPic="data:image/jpeg;base64," + v;
+      $("#uptestimg").attr('src', uptestimg1);
+      $("#zhezhaoimg").attr('src', uptestimg1);
+      $("#lasttimeimgtext").text("水份 纹理 肤色");
+      tupian1date=''+v;
+    }
+
+    //返回图片2的Base64字符
+    function getimg2(v) {
+//      document.all.img2v.value = v;
+      document.all.imgg2.src = "data:image/jpeg;base64," + v;
+      agingPic= "data:image/jpeg;base64," + v;
+      $("#uptestimg").attr('src', uptestimg2);
+      $("#zhezhaoimg").attr('src', uptestimg2);
+      $("#lasttimeimgtext").text("老化 油份");
+      tupian2date=''+v;
+    }
+
+    //返回图片3的Base64字符
+    function getimg3(v) {
+//      document.all.img3v.value = v;
+      document.all.imgg3.src = "data:image/jpeg;base64," + v;
+      inflammationPic = "data:image/jpeg;base64," + v;
+      $("#uptestimg").attr('src', uptestimg3);
+      $("#zhezhaoimg").attr('src', uptestimg3);
+      $("#lasttimeimgtext").text("炎症");
+      tupian3date=''+v;
+    }
+
+    //返回图片4的Base64字符
+    function getimg4(v) {
+//      document.all.img4v.value = v;
+      document.all.imgg4.src = "data:image/jpeg;base64," + v;
+      pigmentPic = "data:image/jpeg;base64," + v;
+      $("#uptestimg").attr('src', uptestimg4);
+      $("#zhezhaoimg").attr('src', uptestimg4);
+      $("#lasttimeimgtext").text("色素");
+      tupian4date=''+v;
+    }
+
+    //返回图片5的Base64字符
+    function getimg5(v) {
+//      document.all.img5v.value = v;
+      document.all.imgg5.src = "data:image/jpeg;base64," + v;
+      porePic = "data:image/jpeg;base64," + v;
+      $("#uptestimg").attr('src', uptestimg5);
+      $("#zhezhaoimg").attr('src', uptestimg5);
+      $("#lasttimeimgtext").text("毛孔");
+      tupian5date=''+v;
+
+      if(tupian1date!=''&& tupian2date!=''&& tupian3date!='' && tupian4date!='' && tupian5date!=''){
+        $(".loading").fadeIn();
+        $(".loading").text("点击开始分析,获取肌肤分析报告");
+        setTimeout(function () {
+          $(".loading").fadeOut();
+        },3000)
+      }
+
+    }
+
+    //下一步
+    function goNextTest() {
+      var el = document.getElementById("shencengceshi");
+    
+      if (el.style.display == "block") {
+        $("#biaocengceshi").css('display', 'none')
+        $("#shencengceshi").css('display', 'none')
+        $("#uvceshi").css('display', 'block');
+//        $("#button_mon").css('display', 'none')
+//        $("#button_mon1").css('display', 'block');
+        $(".radiusline").addClass("radiusline66")
+        $(".radiusline2").addClass("radiusline66")
+
+      } else {
+
+        $("#biaocengceshi").css('display', 'none')
+        $("#shencengceshi").css('display', 'block')
+        $(".radiusline").addClass("radiusline66")
+      }
+
+
+      var uvel = document.getElementById("uvceshi");
+      if (uvel.style.display == "block") {
+        $("#biaocengceshi").css('display', 'none')
+        $("#shencengceshi").css('display', 'none')
+        $("#uvceshi").css('display', 'block');
+        $("#button_mon").css('display', 'none')
+        $("#button_mon1").css('display', 'block');
+      }
+    }
+
+    //进度条
+    function setProcess(){
+      var processbar = document.getElementById("processbar");
+      processbar.style.width = parseInt(processbar.style.width) + 1 + "%";
+      processbar.innerHTML = processbar.style.width;
+      if(processbar.style.width == "100%"){
+        window.clearInterval(bartimer);
+      }
+    }
+    var bartimer = window.setInterval(function(){setProcess();},100);
+
+
+
+    //重新测试
+    function resetTest(index) {
+       if(index==1){
+         $("#imgg1").attr('src', "http://unesmall.b0.upaiyun.com/unes_pro/mo_1.png");
+         $("#imgg2").attr('src', "http://unesmall.b0.upaiyun.com/unes_pro/mo_2.png");
+         waterPic='';
+         agingPic='';
+       }else if(index==2){
+         $("#imgg3").attr('src', "http://unesmall.b0.upaiyun.com/unes_pro/mo_3.png");
+         $("#imgg4").attr('src', "http://unesmall.b0.upaiyun.com/unes_pro/mo_4.png");
+         inflammationPic='';
+         pigmentPic='';
+       }else if(index==3){
+         $("#imgg5").attr('src', "http://unesmall.b0.upaiyun.com/unes_pro/mo_5.png");
+         porePic='';
+       }
+    }
+
+    function backup(index) {
+        if(index==2){
+
+          $("#biaocengceshi").css('display', 'block')
+          $("#shencengceshi").css('display', 'none')
+          $("#uvceshi").css('display', 'none');
+          $("#button_mon").css('display', 'block')
+          $("#button_mon1").css('display', 'none');
+        }else if(index==3){
+
+          $("#biaocengceshi").css('display', 'none')
+          $("#shencengceshi").css('display', 'block')
+          $("#uvceshi").css('display', 'none');
+          $("#button_mon").css('display', 'block')
+          $("#button_mon1").css('display', 'none');
+
+
+        }
+
+    }
+    //开始分析   发送图片
+    function goPushimg() {
+
+
+
+
+
+      if(waterPic==''||agingPic==''||inflammationPic==''||pigmentPic==''||porePic==''){
+        alert("请拍完5张")
+      }else {
+        $('#button_mon1').prop("disabled",true)
+
+        jQuery.support.cors = true
+        $.ajax({
+          type: "post",
+//          url: "http://192.168.10.27:8887/monitor.json",
+          url: "http://diy2.unescn.com/monitor.json",
+//          url: api.commonapi.monitor,
+          dataType: 'json',
+          data: {
+            testType: testType,
+            memberId: memberId,
+            waterPic: waterPic,
+            agingPic: agingPic,
+            inflammationPic: inflammationPic,
+            porePic: porePic,
+            pigmentPic: pigmentPic
+
+          },
+          header: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          success: function (res) {
+            if(res.Code==1){
+         
+//              swfid1
+//              $("#thisRsult").css("opacity","0");
+              $("#thisRsult").hide();
+              $("#thisRsult2").show();
+
+              $("#sendphotobox").show();
+              $("#fasongshujubox").show();
+              $(".lianjieyuancheng").show();
+              $(".shaohou").show();
+              var storage=window.localStorage;
+              storage.setItem("reportId1",res.reportId);
+
+
+              setTimeout(function () {
+             
+                var a=document.getElementById("loadbox");
+                a.style.display="none";
+                $(".lianjieyuancheng").text("正在连接皮肤数据库");
+                $("#donghua1").show();
+                setTimeout(function () {
+                  $("#donghua1").hide();
+                  $(".lianjieyuancheng").text("智能中心正在分析");
+                  $("#donghua2").show();
+                  setTimeout(function () {
+                    $("#honghuatip1").text("图片对比中...");
+                    setTimeout(function () {
+                      $("#honghuatip1").text("数据分析中...");
+
+                      setTimeout(function () {
+                        $(".lianjieyuancheng").text("数据正传回本机");
+                        $("#donghua2").hide();
+                        $("#loadbox").show();
+                        setTimeout(function () {
+                          $("#sendphotobox").hide();
+                          $("#fasongshujubox").hide();
+                          var storage=window.localStorage;
+//                          storage.setItem("oneWayAnalysisPage","7")
+                          var pageurl=window.location.host||document.domain;
+//                          alert(pageurl)
+                          window.location.href="http://"+pageurl+"/#/oneWayAnalysisPage";
+                        },4000)
+                      },4000)
+
+
+                    },2000)
+                  },2000)
+                },4000)
+              },4000)
+
+
+
+            }
+
+
+          },
+          error: function (response) {
+            alert('请求超时,请检查网络')
+            $('#button_mon1').prop("disabled",false)
+          }
+        })
+
+
+
+
+
+      }
+
+    }
+
+    function closezhezhao() {
+      $("#zhezhao").hide();
+      $(".thisRsult").css("visibility","visible")
+    }
+    function openzhezhao() {
+      $("#zhezhao").show();
+      $(".thisRsult").css("visibility","hidden")
+    }
+
+    function abc() {
+   
+    }
+    //初始化的时候 读取testuserid  testType  并读取个人信息显示
+    window.onload = function () {
+      $(".lianjieyuancheng").hide();
+      $(".zhinengfenxi").hide();
+      $(".lianjeishujuku").hide();
+      $(".shujupipei").hide();
+      $(".tupianduibi").hide();
+      $(".shujufenxi").hide();
+      $(".chuanhuibenji").hide();
+      $(".shaohou").hide();
+      $("#donghua1").hide();
+      $("#donghua2").hide();
+      $("#zhezhao").hide();
+
+//      $("#thisRsult").css("opacity","1");
+      $("#thisRsult").show();
+      $("#thisRsult2").hide();
+
+  
+      var storage = window.localStorage;
+       memberId = storage.getItem("testuserid");
+      testType = storage.getItem("testType");
+
+      jQuery.support.cors = true
+      $.ajax({
+        type: "post",
+//        url: "http://192.168.10.27:8887/monitorPageInit.json",
+        url: "http://diy2.unescn.com/monitorPageInit.json",
+//        url: api.commonapi.monitorPageInit,
+        dataType: 'json',
+        data: {
+          memberId: memberId
+        },
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        success: function (res) {
+
+          if(res.skinTestReport!=undefined){
+            var uptestimg = res.skinTestReport.waterPic.url+"";
+            $("#uptestimg").attr('src', uptestimg);
+            $("#zhezhaoimg").attr('src', uptestimg);
+            setTimeout(function () {
+              var uptestimg = res.skinTestReport.waterPic.url+"";
+              $("#uptestimg").attr('src', uptestimg);
+              $("#zhezhaoimg").attr('src', uptestimg);
+            },1000)
+            uptestimg1 = res.skinTestReport.waterPic.url+"";
+            uptestimg2= res.skinTestReport.agingPic.url+"";
+            uptestimg3 = res.skinTestReport.inflammationPic.url+"";
+            uptestimg4 = res.skinTestReport.pigmentPic.url+"";
+            uptestimg5 = res.skinTestReport.porePic.url+"";
+          }
+      
+          $("#bianhao").text(res.member.id)
+          $("#userxingming").text(res.member.name);
+          var headimg = res.member.headimgurl;
+          $("#headimgurl").attr('src', res.member.headimgurl);
+
+        },
+        error: function (response) {
+
+        }
+      })
+    }
+
+
+  </script>
+
+
+</head>
+<body>
+<div>
+<!--<div class="headtop">-->
+  <!--<div id="commontop" class="el">-->
+    <!--<div class="main">-->
+      <!--<div class="logo clearfloat">-->
+        <!--<img src="http://unesmall.b0.upaiyun.com/unes_pro/01.png"/>-->
+      <!--</div>-->
+
+      <!--<ul class="topnavul clearfloat">-->
+        <!--<li onclick="gohuiyuan()" id="navhuiyuan"><span>会员</span></li>-->
+        <!--<li class="active">检测</li>-->
+        <!--<li>肌肤分析</li>-->
+        <!--<li>分析报告</li>-->
+      <!--</ul>-->
+      <!--<div class="title_rig">-->
+        <!--<img src="http://unesmall.b0.upaiyun.com/unes_pro/icon_user.png">-->
+        <!--门店-->
+        <!--<div class="hoverLogout" style="display: none;">退出</div>-->
+      <!--</div>-->
+
+      <!--<div class="title_rig icon_back" @click="fanhuiup"><img src="http://diy2/unes/img/icon_back.png">返回-->
+      <!--</div>-->
+
+    <!--</div>-->
+
+  <!--</div>-->
+<!--</div>-->
+</div>
+
+<div class="jiancemain clearfloat">
+
+
+  <div class="clearfloat" id="flash_ceshi">
+    <div class="left left_box">
+
+      <div class="topaaa">
+        <div class="topaaawrap">
+          <span class="biaoceng">表层</span>
+          <div class="radius radius_active" style="margin-left: 5px;">1</div>
+          <div class="radiusline">2</div>
+          <span class="radiu_text shencengtext"  >深层</span>
+          <div class="radiusline2">3</div>
+          <span class="radiu_text uvcengtext"  >UV层</span>
+        </div>
+      </div>
+      <div class="jiance-userinfo clearfloat">
+        <div class="userinfo">
+          <div class="pro_msg">
+            <img id="headimgurl" src="../images/weitest.png">
+          </div>
+          <div class="bianhao_name">
+            <p>编号: <span id="bianhao">402</span></p>
+            <p>姓名: <span id="userxingming">3333</span></p>
+          </div>
+        </div>
+        <div class="userphoto">
+          <div class="img">
+            <img id="uptestimg" onclick="openzhezhao()"
+                 src="../images/weitest.png">
+          </div>
+          <div class="shangtestresult">
+            上次测试结果(<span id="lasttimeimgtext">水份 纹理 肤色</span>)
+          </div>
+        </div>
+      </div>
+      <div class="thisRsult" id="thisRsult">
+        <div id="swfid1" style="visibility: visible;"></div>
+      </div>
+      <div class="thisRsult" id="thisRsult2">
+
+      </div>
+      <div class="button_mon" id="button_mon" onclick="goNextTest()">下一步</div>
+      <div class="button_mon" id="button_mon1" style="display: none" onclick="goPushimg()">开始分析</div>
+    </div>
+    <div class="right right_box">
+      <div class="tupianceshi">
+        <div class="biaocengceshi" id="biaocengceshi">
+          <div class="right_box_title">
+            <span class="ceshi_box_title">表层测试</span>
+            <div class="reset_test" onclick="resetTest(1)"><img src="../../static/images/chongzhi.png">重新测试</div>
+            <div class="shangyibu" onclick="backup(1)" style="float: right;"><img src="../../static/images/shangyibu.png">上一步</div>
+          </div>
+          <div class="mon_sl">
+            <span>水份<br/>纹理<br/>肤色</span>
+            <img id="imgg1" src="http://unesmall.b0.upaiyun.com/unes_pro/mo_1.png">
+            <span class="tiptext">仪器对准图示位置</span>
+            <div class="dianjitest" onclick="document.all.sfid.img1();">点击测试</div>
+            <div style="width: 100%;height: 10px;visibility: hidden"></div>
+          </div>
+
+          <div class="mon_sl">
+            <span>老化<br/>油份</span>
+            <img id="imgg2" src="http://unesmall.b0.upaiyun.com/unes_pro/mo_2.png">
+            <span class="tiptext">仪器对准图示位置</span>
+            <div class="dianjitest" onclick="document.all.sfid.img2();">点击测试</div>
+            <div style="width: 100%;height: 10px;visibility: hidden"></div>
+          </div>
+
+          <div class="light_tip">
+            <div class="light_tip_box"><img src="http://unesmall.b0.upaiyun.com/unes_pro/C045.png"><span>测肤仪灯光选择</span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="shencengceshi" id="shencengceshi" style="display: none">
+          <div class="right_box_title">
+            <span class="ceshi_box_title">深层测试</span>
+            <div class="reset_test" onclick="resetTest(2)"><img src="../../static/images/chongzhi.png">重新测试</div>
+            <div class="shangyibu"  onclick="backup(2)"  style="float: right;"><img src="../../static/images/shangyibu.png">上一步</div>
+          </div>
+          <div class="mon_sl">
+            <span>炎症</span>
+            <img id="imgg3" src="http://unesmall.b0.upaiyun.com/unes_pro/mo_3.png"><span class="tiptext">仪器对准图示位置</span>
+            <div class="dianjitest" onclick="document.all.sfid.img3();">点击测试</div>
+            <div style="width: 100%;height: 10px;visibility: hidden"></div>
+          </div>
+
+          <div class="mon_sl"><span>色素</span><img id="imgg4"
+                                                  src="http://unesmall.b0.upaiyun.com/unes_pro/mo_4.png"><span
+            class="tiptext">仪器对准图示位置</span>
+            <div class="dianjitest" onclick="document.all.sfid.img4();">点击测试</div>
+            <div style="width: 100%;height: 10px;visibility: hidden"></div>
+          </div>
+
+          <div class="light_tip">
+            <div class="light_tip_box"><img src="http://unesmall.b0.upaiyun.com/unes_pro/D01.png"><span>测肤仪灯光选择</span>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="uvceshi" id="uvceshi" style="display: none">
+          <div class="right_box_title">
+            <span class="ceshi_box_title">UV测试</span>
+            <div class="reset_test" onclick="resetTest(3)"><img src="../../static/images/chongzhi.png">重新测试</div>
+            <div class="shangyibu" onclick="backup(3)" style="float: right;"><img src="../../static/images/shangyibu.png">上一步</div>
+          </div>
+          <div class="mon_sl">
+            <span>毛孔</span>
+            <img id="imgg5" src="http://unesmall.b0.upaiyun.com/unes_pro/mo_5.png"><span class="tiptext">仪器对准图示位置</span>
+            <div class="dianjitest" onclick="document.all.sfid.img5();">点击测试</div>
+            <div style="width: 100%;height: 10px;visibility: hidden"></div>
+          </div>
+
+          <div class="mon_sl" style="visibility: hidden"><span>色素</span><img
+            src="http://unesmall.b0.upaiyun.com/unes_pro/mo_4.png"><span class="tiptext">仪器对准图示位置</span>
+            <div onclick=" ">点击测试</div>
+            <div style="width: 100%;height: 10px;visibility: hidden"></div>
+          </div>
+
+          <div class="light_tip">
+            <div class="light_tip_box"><img src="http://unesmall.b0.upaiyun.com/unes_pro/D02.png"><span>测肤仪灯光选择</span>
+            </div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="sendphotobox">
+
+</div>
+<div class="fasongshujubox" id="fasongshujubox">
+  <div class="processcontainer" id="loadbox">
+    <div id="processbar"  ></div>
+  </div>
+  <span class="lianjieyuancheng">数据正传输到远程智能中心</span>
+  <span class="zhinengfenxi">智能中心正在分析</span>
+  <span class="lianjeishujuku">正在连接皮肤数据库</span>
+  <span class="shujupipei">数据匹配中...</span>
+  <span class="tupianduibi">图片对比中...</span>
+  <span class="shujufenxi">数据分析中...</span>
+  <span class="chuanhuibenji">数据正传回本机</span>
+  <span class="shaohou">请稍后......</span>
+  <div id="donghua1">
+      <img src="http://unesmall.b0.upaiyun.com/unes_pro/test_sql.gif">
+  </div>
+  <div id="donghua2">
+      <img src="http://unesmall.b0.upaiyun.com/unes_pro/test_skin_loading.gif">
+      <span id="honghuatip1">数据匹配中</span>
+  </div>
+</div>
+
+<!--<div class="copyrightwrap" style="width: 100%">-->
+  <!--<div id="copyright">-->
+    <!--Copyright@2016-2020广州优理氏生物科技有限公司粤ICP备16107136号-1-->
+  <!--</div>-->
+<!--</div>-->
+<div class="zhezhao"  id="zhezhao"  onclick="closezhezhao()">
+  <div class="xianzhuangimg" onclick="abc()">
+    <img id="zhezhaoimg" src="../images/weitest.png"/>
+  </div>
+</div>
+
+<span class="loading">
+         正在加载ing.....
+</span>
+
+
+
+<script language="javascript">
+//  alert("alert2")
+  swfobject.embedSWF("AW.swf", "swfid1", "400", "274", "9.0.0", "expressInstall.swf", {n: "hello"}, {m: "false"}, {id: "sfid"});
+
+
+
+//  setTimeout(function () {
+//    swfobject.embedSWF("AW.swf", "swfid1", "400", "274", "9.0.0", "expressInstall.swf", {n: "hello"}, {m: "false"}, {id: "sfid"});
+//  },800)
+
+</script>
+
+<script type="text/javascript" src="../jquery.min.js"></script>
+
+</body>
+</html>

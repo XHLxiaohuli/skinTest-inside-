@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>ECharts</title>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="height:400px"></div>
+<!-- ECharts单文件引入 -->
+<script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+<script type="text/javascript">
+  // 路径配置
+  require.config({
+    paths: {
+      echarts: 'http://echarts.baidu.com/build/dist'
+    }
+  });
+
+  // 使用
+  require(
+    [
+      'echarts',
+      'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+    ],
+    function (ec) {
+      // 基于准备好的dom，初始化echarts图表
+      var myChart = ec.init(document.getElementById('main'));
+
+
+      option = {
+        title: {
+          text: '过去七日交易额'
+        },
+        tooltip : {
+          trigger: 'axis'
+        },
+        legend: {
+          data:['交易额','交易量']
+        },
+        toolbox: {
+          show : true,
+          feature : {
+            mark : {show: true},
+            dataView : {show: true},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+          }
+        },
+        xAxis : [
+          {
+            type : 'category',
+            position: 'bottom',
+            boundaryGap: true,
+            axisLine : {    // 轴线
+              show: true,
+              lineStyle: {
+                color: 'green',
+                type: 'solid',
+                width: 2
+              }
+            },
+            axisTick : {    // 轴标记
+              show:true,
+              length: 10,
+              lineStyle: {
+                color: 'red',
+                type: 'solid',
+                width: 2
+              }
+            },
+            axisLabel : {
+              show:true,
+              interval: 'auto',    // {number}
+//              rotate: 45,
+              margin: 8,
+              formatter: '周{value}',
+              textStyle: {
+                color: 'blue',
+                fontFamily: 'sans-serif',
+                fontSize: 15,
+                fontStyle: 'italic',
+                fontWeight: 'bold'
+              }
+            },
+            splitLine : {
+              show:true,
+              lineStyle: {
+                color: '#483d8b',
+                type: 'dashed',
+                width: 1
+              }
+            },
+            splitArea : {
+              show: true,
+              areaStyle:{
+                color:['rgba(144,238,144,0.3)','rgba(135,200,250,0.3)']
+              }
+            },
+            data : [
+              '一','二','三','四','五','六','日'
+            ]
+          },
+        ],
+        yAxis : [
+          {
+            type : 'value',
+            position: 'left',
+            //min: 0,
+            //max: 300,
+            //splitNumber: 5,
+            boundaryGap: [0,1],
+            axisLine : {    // 轴线
+              show: true,
+              lineStyle: {
+                color: 'red',
+                type: 'dashed',
+                width: 2
+              }
+            },
+            axisTick : {    // 轴标记
+              show:true,
+              length: 20,
+              lineStyle: {
+                color: 'green',
+                type: 'solid',
+                width: 2
+              }
+            },
+            axisLabel : {
+              show:true,
+              interval: 'auto',    // {number}
+//              rotate: -45,
+              margin: 18,
+              formatter: '{value}元',    // Template formatter!
+              textStyle: {
+                color: '#1e90ff',
+                fontFamily: 'verdana',
+                fontSize: 10,
+                fontStyle: 'normal',
+                fontWeight: 'bold'
+              }
+            },
+            splitLine : {
+              show:true,
+              lineStyle: {
+                color: '#483d8b',
+                type: 'dotted',
+                width: 2
+              }
+            },
+            splitArea : {
+              show: true,
+              areaStyle:{
+                color:['rgba(205,92,92,0.3)','rgba(255,215,0,0.3)']
+              }
+            }
+          },
+          {
+            type : 'value',
+            splitNumber: 10,
+            axisLabel : {
+              formatter: function (value) {
+                // Function formatter
+                return value + '笔'
+              }
+            },
+            splitLine : {
+              show: false
+            }
+          }
+        ],
+        series : [
+          {
+            name: '交易额',
+            type: 'bar',
+            itemStyle:{
+              normal:{
+                color:"#1eb2b5"
+              }
+            },
+            data:[2000, 2300, 2400, 2500, 3100, 2100, 2800]
+          },
+          {
+            name: '交易量',
+            type: 'line',
+            yAxisIndex: 1,
+            itemStyle:{
+              normal:{
+                color:"#9F79EE"
+              }
+            },
+            data: [20, 30, 40, 50, 50, 40, 70]
+          },
+        ]
+      };
+
+      myChart.setOption(option);
+//      option.series[0].data[1]=10;
+//      option.series[0].itemStyle.normal.color="blue"
+//      // 为echarts对象加载数据
+//      myChart.setOption(option);
+    }
+  );
+</script>
+</body>
